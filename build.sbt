@@ -24,6 +24,13 @@ scalacOptions ++= (
     Nil
 ) ::: unusedWarnings
 
+assemblyJarName in assembly := "reproducebylog.jar"
+
+/* skip the test during assembly */
+test in assembly := {}
+
+/* set an explicit main class */
+mainClass in assembly := Some("behiron.reproducebylog.sample.accessLogSample")
 
 Seq(Compile, Test).flatMap(c =>
   scalacOptions in (c, console) --= unusedWarnings)
