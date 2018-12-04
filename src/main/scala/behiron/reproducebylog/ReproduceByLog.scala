@@ -61,19 +61,19 @@ case class ReproduceByLog(task: Task, taskTiming: TaskTiming) {
 
   protected def invalidLog(record: String, lineNum: Int) : Unit = {
     System.err.println(
-      s"invalid record: [${lineNum}]${record}"
+      s"invalid record: [${lineNum}] ${record}"
     )
   }
 
   protected def timeOutLog(record: String, lineNum: Int) : Unit = {
     System.err.println(
-      s"timeout record: [${lineNum}]${record}"
+      s"timeout record: [${lineNum}] ${record}"
     )
   }
 
   protected def exceptionLog(record: String, lineNum: Int, e: Throwable) : Unit = {
     System.err.println(
-      s"exception record: [${lineNum}]${record} throws ${e.getMessage}"
+      s"exception record: [${lineNum}] ${record} throws exception: message is ${e.getMessage}"
     )
   }
 }
