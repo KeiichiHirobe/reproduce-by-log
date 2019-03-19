@@ -13,6 +13,18 @@ object accessLogSample {
   }
 }
 
+object servletLogSample {
+  def main(args: Array[String]): Unit = {
+    val reproduceByLog = ReproduceByLog(WriteStdOutTask, ServletLogTiming)
+    /* reproduceByLog.setTimeOut(1000) */
+    using(Source.fromFile(args(0))) { s =>
+      reproduceByLog.run(s)
+    }
+  }
+}
+
+
+
 object accessLogExceptionSample {
   def main(args: Array[String]): Unit = {
     val reproduceByLog = ReproduceByLog(ExceptionTestTask, AccessLogTiming)

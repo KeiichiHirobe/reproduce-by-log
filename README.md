@@ -13,7 +13,6 @@ Requirements
 Setup
 -----
 
-
 ```bash
 $ sbt
 [info] Loading settings for project reproduce-by-log-build from assembly.sbt ...
@@ -22,7 +21,7 @@ $ sbt
 [info] sbt server started at ....
 
 # compile and run
-sbt:reproducebylog> run sample.log
+sbt:reproducebylog> run sampleLog/accessLogSample.log
 [info] Updating ...
 [info] Done updating.
 ...
@@ -42,7 +41,7 @@ Enter number: [info] Packaging reproducebylog_2.12-0.1.0-SNAPSHOT.jar ...
 2
 
 # successfly running
-[info] Running behiron.reproducebylog.sample.accessLogSample sample.log
+[info] Running behiron.reproducebylog.sample.accessLogSample sampleLog/accessLogSample.log
 10.0.2.2 - - [16/Nov/2018:14:21:01 +0900] "GET /example HTTP/1.1" 404 -
 10.0.2.2 - - [16/Nov/2018:14:21:02 +0900] "GET /example HTTP/1.1" 404 -
 10.0.2.2 - - [16/Nov/2018:14:21:05 +0900] "POST /example HTTP/1.1" 404 -
@@ -67,11 +66,11 @@ Usage
 -----
 
 ### Reproduce apache accesslog
-Very useful if you want to test Fluentd collecting accesss log because you can test anywhere
+Very useful if you want to test Fluentd collecting accesss log / servlet log  because you can test anywhere
 
 
 ```bash
-$ cat sample.log 
+$ cat sampleLog/accessLogSample.log 
 10.0.2.2 - - [16/Nov/2018:14:21:01 +0900] "GET /example HTTP/1.1" 404 -
 10.0.2.2 - - [16/Nov/2018:14:21:02 +0900] "GET /example HTTP/1.1" 404 -
 10.0.2.2 - - [16/Nov/2018:14:21:05 +0900] "POST /example HTTP/1.1" 404 -
@@ -82,7 +81,7 @@ $ cat sample.log
 10.0.2.2 - - [16/Nov/2018:14:21:13 +0900] "POST /example HTTP/1.1" 500 19990
 
 # records are printed to STDOUT intermittently
-$ java -jar target/scala-2.12/reproducebylog.jar sample.log 2>stderr.log
+$ java -jar target/scala-2.12/reproducebylog.jar sampleLog/accessLogSample 2>stderr.log
 10.0.2.2 - - [16/Nov/2018:14:21:01 +0900] "GET /example HTTP/1.1" 404 -
 10.0.2.2 - - [16/Nov/2018:14:21:02 +0900] "GET /example HTTP/1.1" 404 -
 10.0.2.2 - - [16/Nov/2018:14:21:05 +0900] "POST /example HTTP/1.1" 404 -
@@ -94,6 +93,10 @@ $ java -jar target/scala-2.12/reproducebylog.jar sample.log 2>stderr.log
 # invalid records,exception records,and timeout records are printed to STDERR (you can overwrite these behavior) 
 $ cat stderr.log 
 invalid record: [7] 10.0.2.2 - - [INVALIDLOGFORMAT/Nov/2018:14:21:12 +0900] "POST /example HTTP/1.1" 500 19990
+
+# for servlet log
+$ java -cp  target/scala-2.12/reproducebylog.jar behiron.reproducebylog.sample.servletLogSample sampleLog/servletLogSample.log
+
 ```
 
 ### Customize

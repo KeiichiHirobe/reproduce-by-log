@@ -54,3 +54,30 @@ object AccessLogTiming extends TaskTiming {
     }
   }
 }
+
+object ServletLogTiming extends TaskTiming {
+
+  /* example: requestAt:2018-11-02 00:00:00 JST */
+  val date = """requestAt:(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})""".r
+
+  def getRawEpoch(record: String, lineNum: Int): Option[Long] = {
+    for (m <- date.findFirstMatchIn(record)) yield {
+      val year = m.group(1).toInt
+      val month = m.group(2).toInt
+      val dayOfMonth  = m.group(3).toInt
+      val hour = m.group(4).toInt
+      val minute = m.group(5).toInt
+      val second = m.group(6).toInt
+      (ZonedDateTime.of(
+        year,
+        month,
+        dayOfMonth,
+        hour,
+        minute,
+        second,
+        0,
+        ZoneId.systemDefault()
+      )).toEpochSecond
+    }
+  }
+}
